@@ -1,1 +1,1 @@
-# gadgetron-software-libraries
+# Gadgetron Software Libraries
