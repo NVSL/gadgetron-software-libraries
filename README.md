@@ -1,1 +1,0 @@
-# Gadgetron Software Libraries
