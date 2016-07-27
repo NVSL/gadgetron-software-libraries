@@ -21,9 +21,14 @@ class LED {
 
     public:
 
+#ifndef GTRON_ARDUINO_SKIP
     /**
-     * Creates a variable of type LED. The pin parameter is the hardware pin 
-     * connecting the LED to the microcontroller.
+     * \brief Create an LED object.
+     *
+     * The \p pin parameter identifies the physical pin that the LED is
+     * connected to.  You won't usually need to call this function, since the
+     * code that Gadgetron generates for your design creates an LED object for
+     * each LED in your design. 
      */
     LED(int pin): 
         pin(pin), 
@@ -31,14 +36,25 @@ class LED {
         offTime(offTime) {
             state = OFF;
             blinking = false;
-        }
+    }
+#endif
+     /**
+      * \brief Setup the LED.
+      *
+      * Call this function once in your setup() function.  Without it, the LED
+      * won't work properly.
+      */
+     void setup() {
+	  pinMode(pin, OUTPUT);
+	  digitalWrite(pin, LOW);
+	  onTime = offTime = 500;
+     }
 
     /** 
-     * This function will update the current state of the LED. If the function
-     * blink() was called, then this function will ensure the LED blinks. 
-     * This function should be placed at the top of the main 
-     * Arduino's update function. The programmer should take care to only make
-     * few or short calls to delay() to ensure the LED blinks on time.  
+     * \brief Update the state of the LED.
+     *
+     * You should call this function once at the top of your loop() function.
+     * It is responsible for making the LED blink if you have used blink().
      */
     void update() {
         if (blinking == true) {
@@ -57,9 +73,15 @@ class LED {
     }
 
     /**
-     * This function prepares the LED to blink when update() is next called. 
-     * The parameters on and off represent the amount of time in milliseconds 
-     * for which the LED should remain on and off respectively while blinking.
+     * \brief Set the LED to blink.
+     *
+     * This function makes the LED blink on and off at a specified interval.  It will turn on for \p on milliseconds, turn off for \p off milliseconds, and then repeat.
+     *
+     * In order for this to work well, you need 
+     *
+     * 1. Call update() at the top of your loop() function.
+     * 
+     * 2. Use only very short values for delay().
      */
     void blink(int on, int off) {
         onTime = on;
@@ -67,6 +89,7 @@ class LED {
         blink();
     }
 
+#ifndef GTRON_ARDUINO_SKIP
     /**
      * This function prepares the LED to blink when update() is next called. 
      */
@@ -75,15 +98,18 @@ class LED {
         nextTransition = millis() + onTime;
     }
 
+     
     /**
      * Returns whether the LED is in a blinking state or not
      */
     bool isBlinking() {
         return blinking;
     }
-
+#endif
+     
     /** 
-     * This function toggles the LED's state.
+     * \brief Toggle the LED's state.
+     *
      * If the LED is on, then this function turns it off. 
      * If the LED is off, then this function turns it on. 
      */
@@ -96,7 +122,7 @@ class LED {
     }
 
     /**
-     * This function turns on the LED
+     * \brief Turn the LED on.
      */
     void turnOn() {
         state = ON;
@@ -104,23 +130,13 @@ class LED {
     }
 
     /**
-     * This function turns off the LED
+     * \brief Turn the LED off.
      */
     void turnOff() {
         state = OFF;
         digitalWrite(pin, LOW);
     }
 
-    /**
-     * This function prepares the LED to operate. This function should be 
-     * called within the main setup function of your main Arduino program. 
-     * If not, then very unpredictable things may occur.
-     */
-    void setup() {
-        pinMode(pin, OUTPUT);
-        digitalWrite(pin, LOW);
-        onTime = offTime = 500;
-    }
 
 };
 #endif

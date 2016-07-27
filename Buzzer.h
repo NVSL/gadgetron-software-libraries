@@ -6,21 +6,20 @@
 
 /** 
  * This library allows your design to control a Piezo Buzzer to play simple 
- * sounds. The sounds are square waves with a specifable frequency. The library 
+ * tones. The library 
  * is only able to play a tone from one buzzer at a time. 
+ *
  * A note frequency table (NoteFrequencyTable.h) is bundled with this library
- * to make it easier to play musical notes from this library. \n
+ * to make it easier to play musical notes from this library. 
+ *
  * Example: 
- * playNote(NOTE_A4, 200) will play A at its 4th octave for 200 milliseconds \n
- * Disclaimer: This library simply provides a thin wrapper layer around the 
- * exisiting Arduino Tone library accomidate a more object oriented approach to
- * controlling piezo buzzers.
+ * playNote(NOTE_A4, 200) will play A at its 4th octave for 200 milliseconds
  */
 class Buzzer {
   uint8_t pin;
   public:
     /** Creates a variable of type LED. The pin parameter is the hardware pin 
-     * connecting the Buzzer to the microcontroller
+     * connecting the Buzzer to the microcontroller.
      */ 
     Buzzer(uint8_t pin); 
     /** Plays the given frequency from the buzzer until turnOff is called */

@@ -15,7 +15,7 @@ void (*aInterrupt)(int, void (*f)(), Digivalue) = attachInterrupt;
 
 /**
  * This button library allows your design to receive input from buttons and 
- * bump switches. When an electronic button is pressed, the button closes 
+ * bump switches. When a button is pressed, the button closes 
  * an open circuit between a power source and the microcontroller. This causes
  * a change in voltage which the microcontroller can interpret as a button 
  * press. This library supports reading input from any number of buttons and 
