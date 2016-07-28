@@ -3,7 +3,7 @@
 
 #ifdef ARDUINO
 #include "Arduino.h"
-#include <PinChangeInt.h>   //Still need to #include in the main .ino code too
+#include "PinChangeInt.h"   //Still need to #include in the main .ino code too
 #define ACTIVE_PINS 20
 int8_t (*aInterrupt)(uint8_t, PCIntvoidFuncPtr, int) = PCintPort::attachInterrupt;
 #else

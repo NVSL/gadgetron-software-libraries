@@ -2,7 +2,7 @@
 #define PINCER_INCLUDED
 
 #include <Arduino.h>
-#include <ServoMotor.h>
+#include "ServoMotor.h"
 #define PINCER_OPEN 1
 #define PINCER_CLOSED  0
 /**

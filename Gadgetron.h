@@ -1,20 +1,20 @@
-#ifndef Gadgetron _h
-#define Gadgetron _h
+#ifndef Gadgetron_h
+#define Gadgetron_h
 
-#include "LED.h"
-#include "LEDArray.h"
-#include "RGBLED.h"
-#include "DistanceSensor.h"
-#include "Song.h"
-#include "NoteFrequencyTable.h"
-#include "Multitonelib.h"
-#include "Buzzer.h"
-#include "Pincer.h"
-#include "ServoMotor.h"
-#include "GadgetManager.h"
-#include "PinChangeInt.h"
-#include "MomentaryButton.h"
-#include "Adafruit_LEDBackpack.h"
-#include "Adafruit_GFX.h"
+#include "libs/LED.h"
+#include "libs/LEDArray.h"
+#include "libs/RGBLED.h"
+#include "libs/DistanceSensor.h"
+#include "libs/Song.h"
+#include "libs/NoteFrequencyTable.h"
+#include "libs/Multitonelib.h"
+#include "libs/Buzzer.h"
+#include "libs/Pincer.h"
+#include "libs/ServoMotor.h"
+#include "libs/GadgetManager.h"
+#include "libs/PinChangeInt.h"
+#include "libs/MomentaryButton.h"
+#include "libs/Adafruit_LEDBackpack.h"
+#include "libs/Adafruit_GFX.h"
 
 #endif

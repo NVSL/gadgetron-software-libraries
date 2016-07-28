@@ -3,7 +3,7 @@
 
 class GadgetManager;
 #include <Servo.h>
-#include <GadgetManager.h>
+#include "GadgetManager.h"
 
 /**
  * This library controls servo motors attached to a microcontroller.
