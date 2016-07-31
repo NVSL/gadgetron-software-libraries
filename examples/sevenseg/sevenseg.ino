@@ -25,8 +25,7 @@
 #include <Wire.h> // Enable this line if using Arduino Uno, Mega, etc.
 //#include <TinyWireM.h> // Enable this line if using Adafruit Trinket, Gemma, etc.
 
-#include "Adafruit_LEDBackpack.h"
-#include "Adafruit_GFX.h"
+#include "Gadgetron.h"
 
 Adafruit_7segment matrix = Adafruit_7segment();
 

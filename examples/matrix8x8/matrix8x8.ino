@@ -20,8 +20,7 @@
  ****************************************************/
 
 #include <Wire.h>
-#include "Adafruit_LEDBackpack.h"
-#include "Adafruit_GFX.h"
+#include "Gadgetron.h"
 
 Adafruit_8x8matrix matrix = Adafruit_8x8matrix();
 

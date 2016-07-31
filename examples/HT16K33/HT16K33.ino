@@ -20,8 +20,7 @@
  ****************************************************/
 
 #include <Wire.h>
-#include "Adafruit_LEDBackpack.h"
-#include "Adafruit_GFX.h"
+#include "Gadgetron.h"
 
 #ifndef _BV
   #define _BV(bit) (1<<(bit))

@@ -13,8 +13,7 @@
 // Connect Data to #0
 // Connect Clock to #2
 
-#include "Adafruit_LEDBackpack.h"
-#include "Adafruit_GFX.h"
+#include "Gadgetron.h"
 
 char *message = "Hello world!     ";
 

@@ -18,8 +18,7 @@
  ****************************************************/
 
 #include <Wire.h>
-#include "Adafruit_LEDBackpack.h"
-#include "Adafruit_GFX.h"
+#include "Gadgetron.h"
 
 Adafruit_24bargraph bar = Adafruit_24bargraph();
 

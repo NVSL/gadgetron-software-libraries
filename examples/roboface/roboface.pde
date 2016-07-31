@@ -44,8 +44,7 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-#include "Adafruit_LEDBackpack.h"
-#include "Adafruit_GFX.h"
+#include "Gadgetron.h"
 
 // Because the two eye matrices share the same address, only four
 // matrix objects are needed for the five displays:
