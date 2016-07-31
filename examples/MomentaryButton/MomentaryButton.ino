@@ -8,15 +8,11 @@ void setup() {
 
 void loop() {
 
-  if (button.buttonPressed()) {
+  if (button.isPressed()) {
        Serial.println("Button pressed");
   }
-  if (button.buttonReleased()) {
+  if (button.isReleased()) {
        Serial.println("Button released");
-  }
-  
-  if (button.buttonDown()) {
-       Serial.println("Button is down");
   }
   
   delay(10);
