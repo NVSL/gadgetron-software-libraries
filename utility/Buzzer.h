@@ -1,4 +1,4 @@
-/* Copyright (c) <2016> <mmg005@eng.ucsd.edu >
+/* Copyright (c) <2016> <mmg005@eng.ucsd.edu>
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy of
 * this software and associated documentation files (the "Software"), to deal in 
@@ -26,29 +26,54 @@
 
 /** 
  * This library allows your design to control a Piezo Buzzer to play simple 
- * tones. The library 
- * is only able to play a tone from one buzzer at a time. 
+ * tones. The library  is only able to play a tone from one buzzer at a time. 
  *
  * A note frequency table (NoteFrequencyTable.h) is bundled with this library
  * to make it easier to play musical notes from this library. 
  *
  * Example: 
- * playNote(NOTE_A4, 200) will play A at its 4th octave for 200 milliseconds
+ * 
+ *   \p playNote(NOTE_A4, 200) 
+ *
+ * will play A at its 4th octave for 200 milliseconds
  */
 class Buzzer {
   uint8_t pin;
   public:
-    /** Creates a variable of type LED. The pin parameter is the hardware pin 
+    /** 
+     * rief Constructor
+     *
+     * Creates a variable of type Buzzer. The \pin parameter is the hardware pin 
      * connecting the Buzzer to the microcontroller.
+     *
+     * If you use the sketch that came with your robot, you won't need call this.
      */ 
     Buzzer(uint8_t pin); 
-    /** Plays the given frequency from the buzzer until turnOff is called */
+
+    /**
+     * rief Play a tone forever
+     *
+     * Plays the given frequency from the buzzer until you call \p turnOff().
+     */
     void playNote( int frequency );
-    /** Plays the given frequency from the buzzer for noteLength milliseconds */
+
+    /**
+     * rief Play a tone for a while
+     *
+     * Plays the given \p frequency from the buzzer for \p noteLength milliseconds.
+     */
     void playNote( int frequency, int noteLength );
-    /** Stops the buzzer from playing any sounds */
+
+    /** 
+     * rief Turn off the buzzer
+     */
     void turnOff();
+
+
+#ifndef GTRON_ARDUINO_SKIP
+    
     /** A placeholder setup function that currently doesn't do anything */
     void setup();
+#endif
 };
 #endif

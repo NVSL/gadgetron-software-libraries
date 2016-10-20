@@ -1,4 +1,4 @@
-/* Copyright (c) <2016> <mmg005@eng.ucsd.edu >
+/* Copyright (c) <2016> <mmg005@eng.ucsd.edu>
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy of
 * this software and associated documentation files (the "Software"), to deal in 
@@ -26,11 +26,46 @@
 class RGBLED
 {
   public:
-     RGBLED(int red, int green, int blue, bool common_anode=true);
-     void set(int red, int green, int blue);
-     void fade(int red, int green, int blue, int step, int period);
+     /**
+      * rief Constructor
+      *
+      * By default, the LED is off, but you can set the color with \p red, \p green, and \p blue.
+      *
+      * If you use the sketch that came with your robot, you won't need call this.
+      */
+     RGBLED(int red = 0, int green = 0, int blue = 0, bool common_anode=true);
+
+     /**
+      * rief Setup the LED
+      *
+      * Call this function once in your setup() function.  Without it, the LED
+      * won't work properly.
+      */
      void setup();
-     void loop();
+
+
+#ifndef GTRON_ARDUINO_SKIP     
+     void update();
+#endif
+     
+     /**
+      * rief Set the LED's color.
+      *
+      * The \p red, \p green, and \p blue parameter let you set the red, green, and blue levels.  0 = off, 255 = maximum brigtness.
+      */
+     void set(int red, int green, int blue);
+
+     /**
+      * rief Fade to a new color.
+      *
+      * Fade from the current color to a new color specified by \p red, \p
+      * green, and \p blue.  The transition will take \p step steps, and each
+      * step will take \p period milliseconds.
+      *
+      * This function will not return until the fade is complete.
+      */
+     void fade(int red, int green, int blue, int step, int period);
+
      
  private: 
      // pins for the colors
@@ -45,4 +80,3 @@ class RGBLED
 };
 
 #endif
-

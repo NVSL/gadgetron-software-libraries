@@ -1,4 +1,4 @@
-/* Copyright (c) <2016> <mmg005@eng.ucsd.edu >
+/* Copyright (c) <2016> <mmg005@eng.ucsd.edu>
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy of
 * this software and associated documentation files (the "Software"), to deal in 
@@ -22,34 +22,30 @@
 #define MOMENTARY_BUTTON_INCLUDED
 
 #ifdef ARDUINO
-#include "Arduino.h"
-#include "PinChangeInt.h"   //Still need to #include in the main .ino code too
-#define ACTIVE_PINS 20
-int8_t (*aInterrupt)(uint8_t, PCIntvoidFuncPtr, int) = PCintPort::attachInterrupt;
+  #include "Arduino.h"
+  #if (0)
+    #include <../PinChangeInt/PinChangeInt.h>   //Still need to #include in the main .ino code too
+    #define ACTIVE_PINS 20
+    int8_t (*aInterrupt)(uint8_t, PCIntvoidFuncPtr, int) = PCintPort::attachInterrupt;
+  #endif
 #else
-#define ACTIVE_PINS 28
-void (*aInterrupt)(int, void (*f)(), Digivalue) = attachInterrupt;
-#define CHANGE BOTH
-#include "arduPi.h"
+  #include "arduPi.h"
+  #if (0)
+    #define ACTIVE_PINS 28
+    void (*aInterrupt)(int, void (*f)(), Digivalue) = attachInterrupt;
+    #define CHANGE BOTH
+  #endif
 #endif
 
 /**
- * This button library allows your design to receive input from buttons and 
- * bump switches. When a button is pressed, the button closes 
- * an open circuit between a power source and the microcontroller. This causes
- * a change in voltage which the microcontroller can interpret as a button 
- * press. This library supports reading input from any number of buttons and 
- * bump switches. \n
- * *** IMPORTANT *** \n
- * Please add the following line before including this library to any Arduino 
- * program: #include <PinChangeInt.h>
+ * This button library allows your design to receive input from push buttons and 
+ * bump switches. 
  */
 class MomentaryButton {
 
     int isDown;
     int pin;
 
-    static MomentaryButton *ptr[ACTIVE_PINS];
 
     private:
     uint8_t _pin;           //arduino pin number
@@ -99,14 +95,18 @@ class MomentaryButton {
 
     public:
     /**
+     * rief Constructor
+     *
      * Creates a variable of type MomentaryButton. The pin parameter is the 
      * hardware pin connecting the MomentaryButton to the microcontroller.
+     *
+     * If you use the sketch that came with your robot, you won't need call this.
      */
-    MomentaryButton(int pin, int debounce_time = 200): pin(pin) {
+    MomentaryButton(int pin): pin(pin) {
         _pin = pin;
         _puEnable = 1;
         _invert = 1;
-        _dbTime = debounce_time;
+        _dbTime = 200;
         pinMode(_pin, INPUT);
         if (_puEnable != 0)
             digitalWrite(_pin, HIGH);       //enable pullup resistor
@@ -117,23 +117,17 @@ class MomentaryButton {
         _changed = 0;
         _lastChange = _time;
 
+        #if (0)
         if(pin >= 0 && pin < ACTIVE_PINS)
             ptr[pin] = this;
-    }
-    
-   /**
-     * This function pauses execution of the program until the button or bump 
-     * switch is pressed.
-     */
-    void waitUntilPressed ()
-    {
-        while (read() != 1);
+        #endif
     }
 
-   
    /**
-     * This function checks if the button is pressed. It returns true if the 
-     * button is pressed. Otherwise, this function returns false. 
+    *
+     * rief Checks if the button is pressed. 
+     *
+     * Returns true if the button is pressed, otherwise false. 
      */
     bool isPressed()
     {
@@ -142,10 +136,10 @@ class MomentaryButton {
         return _state == 1 ;
     }
 
-
-   /**
-     * This function checks if the button is not pressed. It returns true if the 
-     * button is not pressed. Otherwise, this function returns false. 
+#ifndef GTRON_ARDUINO_SKIP
+    /**
+     * Checks if the button is not pressed. Returns true if the 
+     * button is not pressed, otherwise false. 
      */
     bool isReleased()
     {
@@ -153,7 +147,31 @@ class MomentaryButton {
         _wasRelease = 0; //resets counter for if the button was released
         return _state == 0;
     }
+#endif
+    
+   /**
+    * rief Wait for a press
+    *
+    * Pauses program execution until the button or bump 
+    * switch is pressed.
+    */
+    void waitUntilPressed ()
+    {
+        while (read() != 1);
+    }
 
+    /**
+    * rief Wait for release
+    *
+    * Pauses program execution until the button or bump 
+    * switch is released.
+    */
+    void waitUntilReleased ()
+    {
+        while (read() == 1);
+    }
+
+#if (0)
    /**
      * This function does not cause the button to be read.                  
      * Do not use
@@ -198,6 +216,12 @@ class MomentaryButton {
         read();
         return (_state == 0 && _time - _lastChange >= t) ? 1 : 0;
     }
+    /** Sets the debounce time for when reading the button */
+    void setDB(uint32_t ms)
+    {
+        _dbTime = ms;
+    }
+
 
    /**
      * This function returns the time button ellapsed from when the button was
@@ -207,19 +231,16 @@ class MomentaryButton {
     {
         return _lastChange;
     }
+#endif
 
-    /** Sets the debounce time for when reading the button */
-    void setDB(uint32_t ms)
-    {
-        _dbTime = ms;
-    }
-
+#ifndef GTRON_ARDUINO_SKIP
    /**
      * This function prepares the MomentaryButton to operate. This function 
      * should be called within the setup function of an Arduino program. 
      * Otherwise, unpredictable errors may occur while using this library.
      */
     void setup() {
+#if (0)
         switch (_pin)
         {
             case 3:
@@ -242,7 +263,7 @@ class MomentaryButton {
                 aInterrupt(_pin, pin12rupt, CHANGE); break;
             case 13:
                 aInterrupt(_pin, pin13rupt, CHANGE); break;
-            #ifdef ARDUINO
+#ifdef ARDUINO
             case A0:
                 aInterrupt(_pin, pinA0rupt, CHANGE); break;
             case A1:
@@ -273,13 +294,16 @@ class MomentaryButton {
             case 25: aInterrupt(_pin, pin25rupt, CHANGE); break;
             case 26: aInterrupt(_pin, pin26rupt, CHANGE); break;
             case 27: aInterrupt(_pin, pin27rupt, CHANGE); break;
-            #endif
+#endif
             default:
                 break;
         }
+#endif
     }
+#endif
+    
 
-
+#if (0)
     private:
     //Called when there is an interrupt, the button makes a note whether it
     //was pressed or released.
@@ -352,37 +376,31 @@ class MomentaryButton {
         ptr[13]->myrupt();
     }
 
-    #ifdef ARDUINO
-    static void pinA0rupt()
-    {
+#ifdef ARDUINO
+    static void pinA0rupt() {
         ptr[A0]->myrupt();
     }
 
-    static void pinA1rupt()
-    {
+    static void pinA1rupt() {
         ptr[A1]->myrupt();
     }
 
-    static void pinA2rupt()
-    {
+    static void pinA2rupt() {
         ptr[A2]->myrupt();
     }
 
-    static void pinA3rupt()
-    {
+    static void pinA3rupt() {
         ptr[A3]->myrupt();
     }
 
-    static void pinA4rupt()
-    {
+    static void pinA4rupt() {
         ptr[A4]->myrupt();
     }
 
-    static void pinA5rupt()
-    {
+    static void pinA5rupt() {
         ptr[A5]->myrupt();
     }
-    #else
+#else
     static void pin0rupt() { ptr[0]->myrupt(); }
     static void pin1rupt() { ptr[1]->myrupt(); }
     static void pin2rupt() { ptr[2]->myrupt(); }
@@ -401,9 +419,10 @@ class MomentaryButton {
     static void pin25rupt() { ptr[25]->myrupt(); }
     static void pin26rupt() { ptr[26]->myrupt(); }
     static void pin27rupt() { ptr[27]->myrupt(); }
-    #endif
-};
-MomentaryButton *MomentaryButton::ptr[ACTIVE_PINS];  //Outside declaration needed for ptr array to work
+    static MomentaryButton *ptr[ACTIVE_PINS];
 #endif
 
-
+#endif
+};
+//MomentaryButton *MomentaryButton::ptr[ACTIVE_PINS];  //Outside declaration needed for ptr array to work
+#endif

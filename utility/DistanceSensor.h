@@ -1,4 +1,4 @@
-/* Copyright (c) <2016> <mmg005@eng.ucsd.edu >
+/* Copyright (c) <2016> <mmg005@eng.ucsd.edu>
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy of
 * this software and associated documentation files (the "Software"), to deal in 
@@ -23,15 +23,32 @@
 
 
 #include <Arduino.h>
+/**
+ * This library lets you read the distance from the distance sensor.
+ */
 class DistanceSensor{
 public:
-    /* Make a new distance sensor that will be attached to the corresponding pin */
+     /**
+      * rief Constructor
+      *
+      * Set the \p analog_pin that connects to the sensor.
+      *
+      * If you use the sketch that came with your robot, you won't need call this.
+      */
     DistanceSensor(int analog_pin);
 
-    /* Call this before doing anything! */
+    /**
+     * rief Setup the sensor.
+     *
+     * Call this method in your \p setup() function.
+     */
     void setup();
 
-    /* Get the distance (cm) that the sensor reads */
+    /**
+     * rief How far?
+     *
+     * Get the distance reading from the sensor in cm.
+     */
     int get_distance();
 private:
     int _pin;
@@ -42,4 +59,3 @@ private:
 
 
 #endif
-

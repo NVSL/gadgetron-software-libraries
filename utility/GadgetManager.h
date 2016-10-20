@@ -1,4 +1,4 @@
-/* Copyright (c) <2016> <mmg005@eng.ucsd.edu >
+/* Copyright (c) <2016> <mmg005@eng.ucsd.edu>
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy of
 * this software and associated documentation files (the "Software"), to deal in 
@@ -36,10 +36,14 @@ class Motor;
 #include "ServoMotor.h"
 
 /**
- * Filename: GadgetManager.h \n 
- * Author: Michael Gonzalez \n
- * Description: This class managers critical resources in Gadgetron Robots.\n
- * Currently, its primary function is to allow the motor drivers to reclaim \n
+ * Filename: GadgetManager.h 
+ 
+ * Author: Michael Gonzalez 
+
+ * Description: This class managers critical resources in Gadgetron Robots.
+
+ * Currently, its primary function is to allow the motor drivers to reclaim 
+
  * PWM pins if servos have control over them. 
  */
 
@@ -52,15 +56,21 @@ class GadgetManager {
          */
         static void registerServo( ServoMotor * servo );
         /*
-         * Allows the calling class to use a list of pins. \n
-         * pins is the list of pins to free \n
-         * number is the number of pins in pins \n
+         * Allows the calling class to use a list of pins. 
+
+         * pins is the list of pins to free 
+
+         * number is the number of pins in pins 
+
          */
         static void freePins(int pins[], int number );
         /*
-         * Allows the original holder of a pin to have access to it again \n
-         * pins is the list of pins to restore \n
-         * number is the number of pins in pins \n
+         * Allows the original holder of a pin to have access to it again 
+
+         * pins is the list of pins to restore 
+
+         * number is the number of pins in pins 
+
          */
         static void reenablePins(int pins[], int number );
         // Only one GadgetManger should ever exist at a time! DO NOT MODIFY

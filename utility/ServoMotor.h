@@ -1,4 +1,4 @@
-/* Copyright (c) <2016> <mmg005@eng.ucsd.edu >
+/* Copyright (c) <2016> <mmg005@eng.ucsd.edu>
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy of
 * this software and associated documentation files (the "Software"), to deal in 
@@ -28,10 +28,7 @@ class GadgetManager;
 /**
  * This library controls servo motors attached to a microcontroller.
  * It provides support for both continuous rotation and postional rotation 
- * servos. By calling rotate, you can specify how you want the servo to move.
- * The ServoMotor library supports up to 12 servo motors on most Arduino 
- * boards. The class wraps the Arduino Servo library to be compatible with the \n
- * Gadgetron tool-chain. 
+ * servos. By calling \p rotate(), you can specify the position you'd like your servo to rotate to.
  */
 class ServoMotor {
   // The GadgetManager should be able to call block and enable but we want to
@@ -39,17 +36,24 @@ class ServoMotor {
   friend class GadgetManager;
   public:
     /**
-     * This is the constructor to make your ServoMotor. \n
-     * The pin parameter is the data pin \n
+     * rief Constructor
+     *
+     * Set the \p pin that control the servo.
+     *
+     * If you use the sketch that came with your robot, you won't need call this.
      */
     ServoMotor( int pin );
-	  /**
-	   * Sets the servo up to run. This method must be called before use!
-	   */
-    void setup();
+    
     /**
-     * Attaches the servo to data pin. This is implicitly called in setup; \n
-     * but, must be called if you want to use the servo again after calling \n
+     * rief Setup the servo
+     *
+     * Call this method in your \p setup() function.
+     */
+    void setup();
+#ifndef GTRON_ARDUINO_SKIP
+    /**
+     * Attaches the servo to data pin. This is implicitly called in setup; 
+     * but, must be called if you want to use the servo again after calling 
      * detach.
      */
     void attach();
@@ -57,23 +61,34 @@ class ServoMotor {
      * Detaches the servo from its PWM timer. 
      */
     void detach();
+#endif
     /**
-     * Rotates the servo from its initial position to degrees. 
+     * rief Rotate!
+     *
+     * Sets the motor the the given angle \p degrees (0-180). 
      */
     void rotate( int degrees );
+    
   private:
     // Detaches servo from timer and prevents user from accessing servo
     void block();
     // Allows servo to access timer but does not immediately re-claim it
     void enable();
     /*
-     * Internal implementation of detach logic. \n 
-     * Does not modify state bits \n
-     * For future Gadgetron Developers: \n
-     * The Arduino Servo library on which this function depends on doesn't \n 
-     * fully function. It seems to disable the PWM timer the servo took up \n 
-     * after it detaches. The solution right now is hardcoded into this \n
-     * but is specically tailored to the ATMega328. Whether this function \n
+     * Internal implementation of detach logic. 
+ 
+     * Does not modify state bits 
+
+     * For future Gadgetron Developers: 
+
+     * The Arduino Servo library on which this function depends on doesn't 
+ 
+     * fully function. It seems to disable the PWM timer the servo took up 
+ 
+     * after it detaches. The solution right now is hardcoded into this 
+
+     * but is specically tailored to the ATMega328. Whether this function 
+
      * works on other processors is unknown.
      */
     void _detach();

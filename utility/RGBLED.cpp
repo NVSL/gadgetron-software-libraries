@@ -1,4 +1,4 @@
-/* Copyright (c) <2016> <mmg005@eng.ucsd.edu >
+/* Copyright (c) <2016> <mmg005@eng.ucsd.edu>
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy of
 * this software and associated documentation files (the "Software"), to deal in 
@@ -79,10 +79,13 @@ void RGBLED::fade(int red, int green, int blue, int step, int period)
 
 void RGBLED::setup()
 {
-  this->set(255, 0, 0);
+     pinMode(red_pin, OUTPUT);
+     pinMode(green_pin, OUTPUT);
+     pinMode(blue_pin, OUTPUT);
+     this->set(0, 0, 0);
 }
 
-void RGBLED::loop()
+void RGBLED::update()
 {
   static unsigned long timer;
   static int state; // 0 for R, 1 for G, 2 for B
@@ -108,4 +111,3 @@ void RGBLED::loop()
     timer = millis();
   }
 }
-

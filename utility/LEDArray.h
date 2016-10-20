@@ -1,4 +1,4 @@
-/* Copyright (c) <2016> <mmg005@eng.ucsd.edu >
+/* Copyright (c) <2016> <mmg005@eng.ucsd.edu>
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy of
 * this software and associated documentation files (the "Software"), to deal in 
@@ -71,51 +71,127 @@ smile_bmp[] =
     B01010101
 };
 
-class LEDArray
+class LEDArray : public Adafruit_8x8matrix
 {
     //states
     int rotation;
-    Adafruit_8x8matrix matrix = Adafruit_8x8matrix();
 
     public:
-    /** Constructor to make the LED Array.*/
+     /**
+      * rief Constructor
+      *
+      * If you use the sketch that came with your robot, you won't need call this.
+      */
     LEDArray();
+#ifndef GTRON_ARDUINO_SKIP
     /** Constructor to make the LED Array.*/
     LEDArray(int dummyPin, int dummyPin2);
-    /** Creates the matrix from included LEDBackpack library */
+#endif
+    
+  /**
+   * rief Setup the display
+   *
+   * Call this function once in your setup() function. 
+   */
     void setup();
-    /** Clears the matrix and displays a blank screen */
+    /**
+     * rief Clear the display.
+     */
     void clear();
-    /** Displays a happy face */
-    void drawHappyFace();
-    /** Displays a neutral face */
-    void drawNeutralFace();
-    /** Displays a sad face */
-    void drawSadFace();
-    /** Rotates so the bottom is on a new side, moving clockwise 1 side */
-    void turnClockwise();
-    /** Rotates so the bottom is on a new counter clockwise side */
-    void turnCounterClockwise();
-    /** Prints text as input by the user as a string */
-    #ifdef ARDUINO
-    void printText(String text);
-    #else
-    void printText(std::string text);
-    #endif
-    /** fills in a pixel and displays it */
+     /**
+      * rief Draw a pixel
+      *
+      * Turn on the pixel at location \p x, \p y.  If \p color == 0, turn it off. Otherwise turn it on.
+      */
     void drawPix(int x, int y);
-    /* Draws a line given two points */
-    void drawLine(int x1, int y1, int x2, int y2);
-    /* Draws the border of a rectangle given two points */
+
+     /**
+      * rief Draw a line
+      *
+      * Start at (\p x0, \p y0), and draw a line to (\p x1, \p y1).  If \p color == 1, turn the pixels on.  Otherwise, turn them off.
+      */
+
+     void drawLine(int x1, int y1, int x2, int y2);
+     /**
+      * rief Draw an hollow rectangle
+      *
+      * Start at (\p x0, \p y0), and draw a hollow rectangle \p w pixels wide
+      * and \p h pixels wide.  
+      *
+      */
     void drawRec(int x1, int y1, int x2, int y2);
-    /* Draws and fills in a rectangle given two points */
+     /**
+      * rief Draw a filled rectangle
+      *
+      * Start at (\p x0, \p y0), and draw a filled rectangle \p w pixels wide
+      * and \p h pixels wide.  
+      *
+      */
     void fillRec(int x1, int y1, int x2, int y2);
-    /* Draws a circle */
+
+     /** 
+      * rief Draw a hollow circle.
+      *
+      * Draw it at (\p x, \p y) with radius \p r.
+      *
+      */
     void drawCircle(int x, int y, int r);
+
+     /** 
+      * rief Draw a filled circle.
+      *
+      * Draw it at (\p x, \p y) with radius \p r.
+      *
+      */
+    void fillCircle(int x, int y, int r);
+
+
+     /** rief Print some text.
+      *
+      * Prints text to the display. If it's too long, it will scroll.
+      */
+#ifdef ARDUINO
+     void printText(String text);
+#else
+     void printText(std::string text);
+#endif
+    
+
+     /** rief Set brightness
+     *
+     * Set the brighness of the display: 0 = min, 15 = max 
+     */
+    void setBrightness(int level);
+
+    /** rief Displays a happy face */
+    void drawHappyFace();
+    /** rief Displays a neutral face */
+    void drawNeutralFace();
+    /** rief Displays a sad face */
+    void drawSadFace();
+    
+    /** rief Rotate the display clockwise
+     *
+     * Rotate the display 90 degrees clockwise. 
+     */
+    void turnClockwise();
+    /** rief Rotate the display counter-clockwise
+     *
+     * Rotate the display 90 degrees clockwise. 
+     */
+    void turnCounterClockwise();
+     /** rief Ignore this function.
+      *
+      */
+     void writeDisplay(void){
+	  Adafruit_LEDBackpack::writeDisplay();
+     };
+#ifndef GTRON_ARDUINO_SKIP
+
     /* Blinks the LEDs at a specified rate from 0 - 3 with 0 at off */
     void blink(int rate);
-    /* Sets the brighness of the lights to a level 0 - 15 with 0 not off */
-    void setBrightness(int level);
+#endif
+
 
     private:
     const int LEFT = 0;

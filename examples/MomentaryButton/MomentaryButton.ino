@@ -1,4 +1,4 @@
-#include "Gadgetron.h"
+#include"MomentaryButton.h"
 
 MomentaryButton button(12);
 
@@ -8,11 +8,15 @@ void setup() {
 
 void loop() {
 
-  if (button.isPressed()) {
+  if (button.buttonPressed()) {
        Serial.println("Button pressed");
   }
-  if (button.isReleased()) {
+  if (button.buttonReleased()) {
        Serial.println("Button released");
+  }
+  
+  if (button.buttonDown()) {
+       Serial.println("Button is down");
   }
   
   delay(10);

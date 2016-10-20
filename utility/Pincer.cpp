@@ -1,4 +1,4 @@
-/* Copyright (c) <2016> <mmg005@eng.ucsd.edu >
+/* Copyright (c) <2016> <mmg005@eng.ucsd.edu>
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy of
 * this software and associated documentation files (the "Software"), to deal in 
@@ -88,14 +88,4 @@ void Pincer::setClose(int angle)
 bool Pincer::isOpen()
 {
     return state == PINCER_OPEN;
-}
-
-void Pincer::setMin(int min)
-{
-    min_angle = min;
-}
-
-void Pincer::setMax(int max)
-{
-    max_angle = max;
 }

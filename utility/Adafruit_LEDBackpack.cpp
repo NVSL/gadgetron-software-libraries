@@ -18,17 +18,17 @@
   MIT license, all text above must be included in any redistribution
  ****************************************************/
 
-#ifdef __AVR_ATtiny85__
- #include <TinyWireM.h>
- #define Wire TinyWireM
-#else
- #include <Wire.h>
-#endif
+#include <Wire.h>
+
 #include "Adafruit_LEDBackpack.h"
 #include "Adafruit_GFX.h"
 
 #ifndef _BV
   #define _BV(bit) (1<<(bit))
+#endif
+
+#ifndef _swap_int16_t
+#define _swap_int16_t(a, b) { int16_t t = a; a = b; b = t; }
 #endif
 
 static const uint8_t numbertable[] = {
@@ -303,7 +303,7 @@ void Adafruit_8x16matrix::drawPixel(int16_t x, int16_t y, uint16_t color) {
  // check rotation, move pixel around if necessary
   switch (getRotation()) {
   case 2:
-    swap(x, y);
+    _swap_int16_t(x, y);
     x = 16 - x - 1;
     break;
   case 3:
@@ -311,7 +311,7 @@ void Adafruit_8x16matrix::drawPixel(int16_t x, int16_t y, uint16_t color) {
     y = 8 - y - 1;
     break;
   case 0:
-    swap(x, y);
+    _swap_int16_t(x, y);
     y = 8 - y - 1;
     break;
   }
@@ -331,10 +331,65 @@ void Adafruit_8x16matrix::drawPixel(int16_t x, int16_t y, uint16_t color) {
   }
 }
 
+/******************************* 16x8 MINI MATRIX OBJECT */
+
+Adafruit_8x16minimatrix::Adafruit_8x16minimatrix(void) : Adafruit_GFX(8, 16) {
+}
+
+void Adafruit_8x16minimatrix::drawPixel(int16_t x, int16_t y, uint16_t color) {
+
+  if ((y < 0) || (x < 0)) return;
+  if ((getRotation() % 2 == 0) && ((y >= 16) || (x >= 8))) return;
+  if ((getRotation() % 2 == 1) && ((x >= 16) || (y >= 8))) return;
+
+
+ // check rotation, move pixel around if necessary
+  switch (getRotation()) {
+  case 2:
+    if (y >= 8) {
+      x += 8;
+      y -= 8; 
+    }
+     _swap_int16_t(x, y);
+    break;
+  case 3:
+    x = 16 - x - 1;
+    if (x >= 8) {
+      x -= 8;
+      y += 8; 
+    }
+    break;
+  case 0:
+    y = 16 - y - 1;
+    x = 8 - x - 1;
+    if (y >= 8) {
+      x += 8;
+      y -= 8; 
+    }
+     _swap_int16_t(x, y);
+    break;
+  case 1:
+    y = 8 - y - 1;
+    if (x >= 8) {
+      x -= 8;
+      y += 8; 
+    }
+    break;
+  }
+
+  if (color) {
+    displaybuffer[x] |= 1 << y;
+  } else {
+    displaybuffer[x] &= ~(1 << y);
+  }
+}
 
 /******************************* 8x8 MATRIX OBJECT */
 
 Adafruit_8x8matrix::Adafruit_8x8matrix(void) : Adafruit_GFX(8, 8) {
+}
+void Adafruit_8x8matrix::setup() {
+  this->begin(0x70);
 }
 
 void Adafruit_8x8matrix::drawPixel(int16_t x, int16_t y, uint16_t color) {
@@ -344,7 +399,7 @@ void Adafruit_8x8matrix::drawPixel(int16_t x, int16_t y, uint16_t color) {
  // check rotation, move pixel around if necessary
   switch (getRotation()) {
   case 1:
-    swap(x, y);
+    _swap_int16_t(x, y);
     x = 8 - x - 1;
     break;
   case 2:
@@ -352,7 +407,7 @@ void Adafruit_8x8matrix::drawPixel(int16_t x, int16_t y, uint16_t color) {
     y = 8 - y - 1;
     break;
   case 3:
-    swap(x, y);
+    _swap_int16_t(x, y);
     y = 8 - y - 1;
     break;
   }
@@ -380,7 +435,7 @@ void Adafruit_BicolorMatrix::drawPixel(int16_t x, int16_t y, uint16_t color) {
 
   switch (getRotation()) {
   case 1:
-    swap(x, y);
+    _swap_int16_t(x, y);
     x = 8 - x - 1;
     break;
   case 2:
@@ -388,7 +443,7 @@ void Adafruit_BicolorMatrix::drawPixel(int16_t x, int16_t y, uint16_t color) {
     y = 8 - y - 1;
     break;
   case 3:
-    swap(x, y);
+    _swap_int16_t(x, y);
     y = 8 - y - 1;
     break;
   }
@@ -611,6 +666,10 @@ void Adafruit_7segment::printFloat(double n, uint8_t fracDigits, uint8_t base)
     // clear remaining display positions
     while(displayPos >= 0) writeDigitRaw(displayPos--, 0x00);
   }
+}
+
+void Adafruit_7segment::setup() {
+  this->begin(0x70);
 }
 
 void Adafruit_7segment::printError(void) {

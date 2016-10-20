@@ -1,4 +1,4 @@
-/* Copyright (c) <2016> <mmg005@eng.ucsd.edu >
+/* Copyright (c) <2016> <mmg005@eng.ucsd.edu>
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy of
 * this software and associated documentation files (the "Software"), to deal in 
@@ -25,41 +25,95 @@
 #include "ServoMotor.h"
 #define PINCER_OPEN 1
 #define PINCER_CLOSED  0
+
 /**
- * Filename: Pincer.h
- * Description: Grab things, pinch things, destroy the world.
+ * Grab things, pinch things, carry things!
+ *
+ * If your gripper doesn't open or close all the way and/or makes grinding or
+ * clicking noise, try calling \p setOpen() and/or \p setClose() in your \p
+ * setup() function to adjust how it opens and closes.
  */
 
 class Pincer
 {
-    //states
-    uint8_t pin;
-    uint8_t state;
-    ServoMotor * srv;
+     //states
+     uint8_t pin;
+     uint8_t state;
+     ServoMotor * srv;
 
-    public:
-        /**
-         * Constructor assigning the pin to variable and default is an open state
-         */
-        Pincer(uint8_t pin);
-        void setup();
-        void toggle();
-        void open();
-        void open(int angle);
-        void close();
-        void onAndOff(int time, int times);
-        void changeState();
-        void setOpen(int angle);
-        void setClose(int angle);
-        bool isOpen();
-        void setMin(int min);
-        void setMax(int max);
+     int MAX_ANGLE = 84;
+     int MIN_ANGLE = 40;
 
-    private:
-        int MAX_ANGLE = 84;
-        int MIN_ANGLE = 40;
-        int max_angle = 84;
-        int min_angle = 40;
+public:
+     /**									
+      * rief Constructor
+      *
+      * Set the pin that control the gripper and open the gripper.
+      *
+      * If you use the sketch that came with your robot, you won't need call this.
+      */
+     Pincer(uint8_t pin);
+     /**
+      * rief Setup the gripper
+      *
+      * Call this method in your \p setup() function.
+      */
+     void setup();
+
+     /**
+      * rief Toggle
+      *
+      * If it's open, close it.  And vice versa.
+      */
+     void toggle();
+
+     /**
+      * rief Open!
+      * 
+      * Open all the way!
+      */
+     void open();
+
+     /**
+      * rief Open (with finesse)
+      * 
+      * \p angle tells how far to open the gripper.  \p angel needs to be between the
+      * minimum and maximum angle.  The defaults for these are 40 (closed) and
+      * 84 (open).
+      */
+     void open(int angle);
+
+     /**
+      * rief Grab!
+      * 
+      * Close the gripper.
+      */
+     void close();
+
+     /**
+      * rief Adjust open angle
+      *
+      * Adjust the angle that corresponds to opening the pincer.  The default
+      * is 84.  If that doesn't open your pincer properly, experiment to find a
+      * good setting.
+      */
+     void setOpen(int angle);
+
+     /**
+      * rief Adjust closed angle
+      *
+      * Adjust the angle that corresponds to closing the pincer.  The default
+      * is 40.  If that doesn't close your pincer properly, experiment to find
+      * a good setting.
+      */
+     void setClose(int angle);
+     
+#ifndef GTRON_ARDUINO_SKIP
+     void onAndOff(int time, int times);
+     void changeState();
+     bool isOpen();
+#endif
+     
 };
 
 #endif

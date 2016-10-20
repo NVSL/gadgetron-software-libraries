@@ -34,24 +34,24 @@ void setup() {
   Serial.begin(9600);
   Serial.println("7 Segment Backpack Test");
 #endif
-  matrix.begin(0x70);
+  matrix.setup();
 }
 
 void loop() {
   // try to print a number thats too long
   matrix.print(10000, DEC);
   matrix.writeDisplay();
-  delay(500);
+  delay(50);
 
   // print a hex number
-  matrix.print(0xBEEF, HEX);
+  matrix.print(0x3, HEX);
   matrix.writeDisplay();
-  delay(500);
+  delay(50);
 
   // print a floating point 
   matrix.print(12.34);
   matrix.writeDisplay();
-  delay(500);
+  delay(5000);
   
   // print with print/println
   for (uint16_t counter = 0; counter < 9999; counter++) {

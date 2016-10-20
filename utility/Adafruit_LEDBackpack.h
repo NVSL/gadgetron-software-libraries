@@ -17,20 +17,18 @@
   Written by Limor Fried/Ladyada for Adafruit Industries.  
   MIT license, all text above must be included in any redistribution
  ****************************************************/
+#ifndef Adafruit_LEDBackpack_h
+#define Adafruit_LEDBackpack_h
 
-#ifndef ADAFRUIT_LEDBACKPACK 
-#define ADAFRUIT_LEDBACKPACK
 #if (ARDUINO >= 100)
  #include "Arduino.h"
 #else
  #include "WProgram.h"
 #endif
 
-#ifdef __AVR_ATtiny85__
- #include <TinyWireM.h>
-#else
+
  #include <Wire.h>
-#endif
+
 #include "Adafruit_GFX.h"
 
 #define LED_ON 1
@@ -53,20 +51,45 @@
 
 #define SEVENSEG_DIGITS 5
 
-
 // this is the raw HT16K33 controller
 class Adafruit_LEDBackpack {
  public:
+
   Adafruit_LEDBackpack(void);
+  
+#ifndef GTRON_ARDUINO_SKIP
   void begin(uint8_t _addr);
+#endif
+  /**
+   * \brief Set brightness
+   *
+   * Set the brightness of the display: 0 (very dim) to 255 (bright!).
+   */
   void setBrightness(uint8_t b);
+
+    
+#ifndef GTRON_ARDUINO_SKIP
   void blinkRate(uint8_t b);
+#endif
+  
+  /**
+   * \brief Update display.
+   *
+   * Update the display to show its current contents.  None of the changes you make will take effect until you call this function.
+   */
   void writeDisplay(void);
+
+  /**
+   * \brief Clear the display.
+   */
   void clear(void);
 
   uint16_t displaybuffer[8]; 
 
+  
+#ifndef GTRON_ARDUINO_SKIP
   void init(uint8_t a);
+#endif
  protected:
   uint8_t i2c_addr;
 };
@@ -102,11 +125,37 @@ class Adafruit_8x16matrix : public Adafruit_LEDBackpack, public Adafruit_GFX {
  private:
 };
 
-class Adafruit_8x8matrix : public Adafruit_LEDBackpack, public Adafruit_GFX {
+class Adafruit_8x16minimatrix : public Adafruit_LEDBackpack, public Adafruit_GFX {
  public:
-  Adafruit_8x8matrix(void);
+  Adafruit_8x16minimatrix(void);
 
   void drawPixel(int16_t x, int16_t y, uint16_t color);
+
+ private:
+};
+
+class Adafruit_8x8matrix : public Adafruit_LEDBackpack, public Adafruit_GFX {
+public:
+     /**
+      * \brief Constructor
+      *
+      * If you use the sketch that came with your robot, you won't need call this.
+      */
+  Adafruit_8x8matrix(void);
+
+     /**
+      * \brief Draw a pixel
+      *
+      * Turn on the pixel at location \p x, \p y.  If \p color == 0, turn it off. Otherwise turn it on.
+      */
+     void drawPixel(int16_t x, int16_t y, uint16_t color);
+     
+     /**
+      * \brief Setup the display.
+     *
+     * Call this method in your \p setup() function.
+     */
+  void setup();
 
  private:
 };
@@ -127,37 +176,92 @@ class Adafruit_BicolorMatrix : public Adafruit_LEDBackpack, public Adafruit_GFX 
 #define BIN 2
 #define BYTE 0
 
+/**
+ * The methods for the display allow you to display numeric values, control the
+ * colon (':'), and change the display's brightness.
+ *
+ * After you call method to display a value or update the colon, you need to
+ * explicitly update the display by calling \p writeDisplay(), otherwise, you
+ * won't see the effect of your changes.
+ */
 class Adafruit_7segment : public Adafruit_LEDBackpack {
  public:
-  Adafruit_7segment(void);
-  size_t write(uint8_t c);
 
-  void print(char, int = BYTE);
-  void print(unsigned char, int = BYTE);
-  void print(int, int = DEC);
-  void print(unsigned int, int = DEC);
-  void print(long, int = DEC);
-  void print(unsigned long, int = DEC);
-  void print(double, int = 2);
-  void println(char, int = BYTE);
-  void println(unsigned char, int = BYTE);
-  void println(int, int = DEC);
-  void println(unsigned int, int = DEC);
-  void println(long, int = DEC);
-  void println(unsigned long, int = DEC);
-  void println(double, int = 2);
+  /**
+   * \brief Constructor
+   *
+   * If you use the sketch that came with your robot, you won't need call this.
+   */
+  Adafruit_7segment();
+
+#ifndef GTRON_ARDUINO_SKIP
+  size_t write(uint8_t c);
+#endif
+  
+  /**
+   * \brief Setup the display
+   *
+   * Call this function once in your setup() function.  Without it, the display
+   * won't work properly.
+   */
+  void setup();
+  
+#ifndef GTRON_ARDUINO_SKIP
+  void print(char d,int type = BYTE);
+  void print(unsigned char d,int type = BYTE);
+  void print(int d,int type = DEC);
+  void print(unsigned int d,int type = DEC);
+  void print(long d,int type = DEC);
+  void print(unsigned long d,int type = DEC);
+  void print(double d,int precision = 2);
+
+  void println(char d,int type = BYTE);
+  void println(unsigned char d,int type = BYTE);
+  void println(int d,int type = DEC);
+  void println(unsigned int d,int type = DEC);
+  void println(long d,int type = DEC);
+  void println(unsigned long d,int type = DEC);
+  void println(double d,int precision = 2);
   void println(void);
+
   
   void writeDigitRaw(uint8_t x, uint8_t bitmask);
   void writeDigitNum(uint8_t x, uint8_t num, boolean dot = false);
+#endif
+  
+  /**
+   * \brief Draw the colon on the display
+   *
+   * If \p state is \p true, light up the colon.  If \p state is \p false, turn it off.  
+   *
+   * Call \p writeDisplay() to see the effect.
+   */
   void drawColon(boolean state);
-  void printNumber(long, uint8_t = 2);
-  void printFloat(double, uint8_t = 2, uint8_t = DEC);
+
+  /**
+   * \brief Write an integer to the display
+   *
+   * By default use base 10.  Alternately, provide \p DEC, \p HEX, \p OCT, or \p BIN to print in decimal, hexidecimal, octal, or binary.
+   */
+  void printNumber(long, uint8_t base= DEC);
+  /**
+   * \brief Write an float to the display
+   *
+   * By default use base 10.  Alternately, provide \p DEC, \p HEX, \p OCT, or \p BIN to print in decimal, hexidecimal, octal, or binary.
+   * By fefault, print two digits of the fraction.  Pass \p digits to show more or less.
+   */
+  void printFloat(double, uint8_t digits= 2, uint8_t base= DEC);
+  /**
+   * \brief Print an error pattern
+   */
   void printError(void);
 
+#ifndef GTRON_ARDUINO_SKIP
   void writeColon(void);
-    
+#endif
+  
  private:
   uint8_t position;
 };
-#endif
+#endif // Adafruit_LEDBackpack_h
+
