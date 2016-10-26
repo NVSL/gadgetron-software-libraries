@@ -41,8 +41,8 @@ class Pincer
      uint8_t state;
      ServoMotor * srv;
 
-     int MAX_ANGLE = 84;
-     int MIN_ANGLE = 40;
+     int MAX_ANGLE = 90;
+     int MIN_ANGLE = 47;
 
 public:
      /**									
