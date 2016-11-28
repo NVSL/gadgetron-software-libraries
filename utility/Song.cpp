@@ -19,18 +19,19 @@
 */
 
 #include "Song.h"
+#include "SongData.h"
 Song::Song( Buzzer & buzzer ) {
   _buzzer = &buzzer;
 }
 void Song::playNextNote() {
   if( songIndex < LENGTH) {
-	  // Calculate length in milliseconds
-     int length = noteLength[songIndex] * (2500/TEMPO);
-     if( notes[songIndex] != REST ) {
+	 // Calculate length in milliseconds
+     int length =  (signed char)pgm_read_byte_near(noteLength + songIndex);
+     length *= (2500/TEMPO);
+     int semitoneValue = (signed char)pgm_read_byte_near(notes + songIndex);
+     if( semitoneValue != REST ) {
 		// Calculate frequency
-	   int freq = notes[songIndex];
-	   freq = (int)(FCONST * pow(ACONST, freq));
-       _buzzer->playNote( freq, (int)length );
+	   _buzzer->playSemitone(semitoneValue, length);
      }
      else {
        _buzzer->turnOff();

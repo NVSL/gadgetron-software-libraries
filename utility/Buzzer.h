@@ -20,60 +20,42 @@
 
 #ifndef BUZZER_H
 #define BUZZER_H
+#define FCONST 261.626
+#define ACONST 1.0594630943593
 
 #include <Arduino.h>
 #include "NoteFrequencyTable.h"
 
-/** 
- * This library allows your design to control a Piezo Buzzer to play simple 
- * tones. The library  is only able to play a tone from one buzzer at a time. 
- *
- * A note frequency table (NoteFrequencyTable.h) is bundled with this library
- * to make it easier to play musical notes from this library. 
- *
- * Example: 
- * 
- *   \p playNote(NOTE_A4, 200) 
- *
- * will play A at its 4th octave for 200 milliseconds
+/** Filename: Buzzer.h 
+
+ *  Author: Michael Gonzalez 
+
+ *  Description: This file provides a simple interface to control piezo buzzers 
+
+ *               on Arduino projects. A note frequency lookup table is provided 
+
+ *               to facilitate easy musical note entry. For example, a user 
+
+ *               only has to pass NOTE_A4 to the playNote function to play the A 
+
+ *               note at the 4th octave rather than having to specify 440 as 
+
+ *               the frequency to play A4.
  */
 class Buzzer {
   uint8_t pin;
   public:
-    /** 
-     * rief Constructor
-     *
-     * Creates a variable of type Buzzer. The \pin parameter is the hardware pin 
-     * connecting the Buzzer to the microcontroller.
-     *
-     * If you use the sketch that came with your robot, you won't need call this.
-     */ 
+    /** Buzzer constructor. */ 
     Buzzer(uint8_t pin); 
-
-    /**
-     * rief Play a tone forever
-     *
-     * Plays the given frequency from the buzzer until you call \p turnOff().
-     */
+    /** Plays the given frequency off the buzzer until turnOff is called */
     void playNote( int frequency );
-
-    /**
-     * rief Play a tone for a while
-     *
-     * Plays the given \p frequency from the buzzer for \p noteLength milliseconds.
-     */
+    /** Plays the given frequency off the buzzer for noteLength milliseconds */
     void playNote( int frequency, int noteLength );
-
-    /** 
-     * rief Turn off the buzzer
-     */
+	/** Plays the note with the semitone offset from middle C (C4) */
+	void playSemitone(int semitoneOffset, int noteLength);
+    /** Stops the buzzer from playing any sounds */
     void turnOff();
-
-
-#ifndef GTRON_ARDUINO_SKIP
-    
-    /** A placeholder setup function that currently doesn't do anything */
+    /** A dummy setup function that doesn't actually do anything */
     void setup();
-#endif
 };
 #endif

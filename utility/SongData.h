@@ -18,23 +18,12 @@
 * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef Gadgetron_h
-#define Gadgetron_h
-
-#include "utility/LED.h"
-#include "utility/LEDArray.h"
-#include "utility/RGBLED.h"
-#include "utility/DistanceSensor.h"
-#include "utility/Song.h"
-#include "utility/NoteFrequencyTable.h"
-#include "utility/Buzzer.h"
-#include "utility/SongData.h"
-#include "utility/Pincer.h"
-#include "utility/ServoMotor.h"
-#include "utility/GadgetManager.h"
-#include "utility/MomentaryButton.h"
-#include "utility/Adafruit_GFX.h"
-#include "utility/Motor.h"
-#include "utility/Adafruit_LEDBackpack.h"
+#ifndef SONG_DATA
+#define SONG_DATA
+#include <avr/pgmspace.h>
+#define LENGTH 5
+#define TEMPO 180
+extern const signed char notes[5] PROGMEM  { 0, 4, 7, 11, 12};
+extern const signed char noteLength[5] PROGMEM { 6, 6, 6, 6, 12};
 
 #endif

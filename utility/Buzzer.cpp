@@ -19,18 +19,29 @@
 */
 
 #include "Buzzer.h"
+/** Buzzer constructor. */ 
 Buzzer::Buzzer( uint8_t pin ) { 
   this->pin = pin;
   pinMode( pin, OUTPUT);
 }  
+/** Plays the given frequency off the buzzer until turnOff is called */
 void Buzzer::playNote( int frequency ) {
   tone(pin, frequency);
 }
+/** Plays the given frequency off the buzzer for noteLength milliseconds */
 void Buzzer::playNote( int frequency, int noteLength ) {
   tone(pin, frequency, noteLength);
 }
+/** Stops the buzzer from playing any sounds */
 void Buzzer::turnOff() {
   noTone(pin);
 }
 
+void Buzzer::playSemitone(int semitoneOffset, int noteLength)
+{
+	   int freq = (int)(FCONST * pow(ACONST, semitoneOffset));
+       playNote( freq, noteLength);
+}
+
+/** A dummy setup function that doesn't actually do anything */
 void Buzzer::setup() {}
