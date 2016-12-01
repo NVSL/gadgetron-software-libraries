@@ -21,9 +21,7 @@
 #ifndef SONG_HEADER
 #define SONG_HEADER
 #define REST -75
-#define FCONST 261.626
-#define ACONST 1.0594630943593
-#include <Buzzer.h> 
+#include "Buzzer.h" 
 #include <math.h> 
 #include <Arduino.h> 
 class Song {

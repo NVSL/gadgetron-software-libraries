@@ -33,16 +33,16 @@ Lisence for library: Adafruit_LED_Backpack
 Files: 
   - Adafruit_LEDBackpack.h
   - Adafruit_LEDBackpack.cpp
-  - HT16K33.ino
-  - quadalphanum.ino
-  - matrix16x8.ino
   - sevenseg.ino
+  - minimatrix16x8.ino
+  - matrix16x8.ino
+  - HT16K33.ino
   - clock_sevenseg_gps.ino
   - quadalphanum_mini.ino
-  - bargraph24.ino
-  - matrix8x8.ino
   - clock_sevenseg_ds1307.ino
-  - minimatrix16x8.ino
+  - quadalphanum.ino
+  - matrix8x8.ino
+  - bargraph24.ino
 
 The MIT License (MIT)
 

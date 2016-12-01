@@ -71,7 +71,7 @@ smile_bmp[] =
     B01010101
 };
 
-class LEDArray : public Adafruit_8x8matrix
+class LEDArray : Adafruit_8x8matrix
 {
     //states
     int rotation;
@@ -94,10 +94,6 @@ class LEDArray : public Adafruit_8x8matrix
    * Call this function once in your setup() function. 
    */
     void setup();
-    /**
-     * rief Clear the display.
-     */
-    void clear();
      /**
       * rief Draw a pixel
       *

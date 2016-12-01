@@ -36,7 +36,6 @@ void LEDArray::setup()
 {
      begin(0x70);
      clear();
-     writeDisplay();
 }
 
 void LEDArray::drawHappyFace()
@@ -135,11 +134,6 @@ void LEDArray::fillCircle(int x, int y, int r)
      writeDisplay();
 }
 
-void LEDArray::clear()
-{
-     clear();
-     writeDisplay();
-}
 
 void LEDArray::blink(int rate)
 {
