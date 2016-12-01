@@ -71,7 +71,7 @@ smile_bmp[] =
     B01010101
 };
 
-class LEDArray : Adafruit_8x8matrix
+class LEDArray : public Adafruit_8x8matrix
 {
     //states
     int rotation;
